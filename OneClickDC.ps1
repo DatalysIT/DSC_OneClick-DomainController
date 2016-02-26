@@ -86,7 +86,7 @@ configuration TestLab
     ) 
  
     #Import the required DSC Resources
-     Import-DscResource -Module xActiveDirectory
+    Import-DscResource -Module xActiveDirectory
     Import-DscResource -Module xNetworking
     Import-DscResource -module xDHCpServer
     Import-DscResource -Module xComputerManagement 
