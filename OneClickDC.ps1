@@ -73,9 +73,9 @@ $SafeModePW = New-Object System.Management.Automation.PSCredential ('guest', $se
 $secpasswd = ConvertTo-SecureString 'IveGot$kills!' -AsPlainText -Force
 $localuser = New-Object System.Management.Automation.PSCredential ('guest', $secpasswd)
  
-configuration TestLab
+configuration DIT-AD
 {
-     param
+    param
     (
         [string[]]$NodeName ='localhost',
         [Parameter(Mandatory)][string]$MachineName,  
@@ -204,11 +204,11 @@ $domainName = $WPFDomainName.Text
 
 write-host "user specified new domain name of $domainName" | tee -Append c:\powershell\DSCBuild.log
 "Your account $($env:USERNAME) will be promoted to a domain admin. `nYou should log on to the machine with your credentials of $domainName\$env:USERNAME"  | tee -Append c:\powershell\DSCBuild.log
-TestLab -DomainName $domainName -Password $localuser -machineName $machinename `
+DIT-AD -DomainName $domainName -Password $localuser -machineName $machinename `
     -SafeModePW $SafeModePW -firstDomainAdmin (Get-Credential -UserName "$domainName\$env:USERNAME" -Message 'Store your credentials' | tee -filePath  c:\powershell\DSCBuild.log -append) `
     -ConfigurationData $configData
  
-Start-DscConfiguration -ComputerName localhost -Wait -Force -Verbose -path .\TestLab -Debug
+Start-DscConfiguration -ComputerName localhost -Wait -Force -Verbose -path .\DIT-AD -Debug
 
 1..10 | % {Write-warning "Time to reboot the machine!"; start-sleep -Milliseconds 400}
 
